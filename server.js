@@ -5,7 +5,8 @@ const bodyParser  = require('body-parser');
 const expect      = require('chai').expect;
 const cors        = require('cors');
 require('dotenv').config();
-
+const mongo=require("mongoose");
+mongoose.connect(process.env.MONGO_URI,{newUrlParser:true});
 const apiRoutes         = require('./routes/api.js');
 const fccTestingRoutes  = require('./routes/fcctesting.js');
 const runner            = require('./test-runner');
@@ -37,7 +38,7 @@ app.route('/')
 fccTestingRoutes(app);
 
 //Routing for API 
-apiRoutes(app);  
+apiRoutes(app,mongo);  
     
 //404 Not Found Middleware
 app.use(function(req, res, next) {
