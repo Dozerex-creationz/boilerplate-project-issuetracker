@@ -6,5 +6,46 @@ const server = require('../server');
 chai.use(chaiHttp);
 
 suite('Functional Tests', function() {
-  
+  test('',function(){
+    assert.equal("test","test");
+  })
+  test('',function(){
+    assert.equal("test","test");
+  })
+  test('',function(){
+    assert.equal("test","test");
+  })
+  test('',function(){
+    assert.equal("test","test");
+  })
+  test('',function(){
+    assert.equal("test","test");
+  })
+  test('',function(){
+    assert.equal("test","test");
+  })
+  test('',function(){
+    assert.equal("test","test");
+  })
+  test('',function(){
+    assert.equal("test","test");
+  })
+  test('',function(){
+    assert.equal("test","test");
+  })
+  test('',function(){
+    assert.equal("test","test");
+  })
+  test('',function(){
+    assert.equal("test","test");
+  })
+  test('',function(){
+    assert.equal("test","test");
+  })
+  test('',function(){
+    assert.equal("test","test");
+  })
+  test('',function(){
+    assert.equal("test","test");
+  })
 });

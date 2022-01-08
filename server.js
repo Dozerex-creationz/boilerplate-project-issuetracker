@@ -6,7 +6,7 @@ const expect      = require('chai').expect;
 const cors        = require('cors');
 require('dotenv').config();
 const mongo=require("mongoose");
-mongoose.connect(process.env.MONGO_URI,{newUrlParser:true});
+mongo.connect(process.env.MONGO_URI);
 const apiRoutes         = require('./routes/api.js');
 const fccTestingRoutes  = require('./routes/fcctesting.js');
 const runner            = require('./test-runner');
