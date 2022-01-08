@@ -24,8 +24,9 @@ module.exports = function (app,mongo) {
   app.route('/api/issues/:project')
     .get(function (req, res){
       let project = req.params.project;
-      let {issue_text,issue_title,created_by,assigned_to,status_text,created_on,updated_on,open}=req.query;
+      let {_id,issue_text,issue_title,created_by,assigned_to,status_text,created_on,updated_on,open}=req.query;
       let query={"project":project};
+      query=addString(_id,query,"_id");
       query=addString(issue_text,query,"issue_text");
       query=addString(issue_title,query,"issue_title");
       query=addString(created_by,query,"created_by");
@@ -69,27 +70,28 @@ module.exports = function (app,mongo) {
       console.log("update these:");
       console.log(JSON.stringify(req.body));
       if(JSON.stringify(req.body)=="{}" || _id==undefined || !req.body){
-            console.log({"error":"missing _id"});
-            res.send({"error":"missing _id"});
+           
+            res.send({error:"missing _id"});
             
       }
-      else if(issue_text=='' && issue_title=='' && created_by=='' && assigned_to=='' && status_text=='' && !open){
+      else if(!issue_text && !issue_title && !created_by && !assigned_to && !status_text && !open){
         
-        console.log({"error":"no update field(s) sent","_id":_id})
-        res.send({"error":"no update field(s) sent",_id:_id})
+        
+        res.send({error:"no update field(s) sent",_id:_id})
       }
       else if(Project.find({"project":project,"_id":_id}).count()<1){
-        console.log("the best decision")
-        res.send({"error":"could not update",_id:_id})
+        
+        res.send({error:"could not update",_id:_id})
       }
       else{
-        Project.findOneAndUpdate({"project":project,"_id":_id},{new:true},(err,data)=>{
+        Project.findOneAndUpdate({"_id":_id},{new:true},(err,data)=>{
         if(err) console.log(err);
         if(!data || err){
-          console.log({"error":"could not update","_id":_id})
-          res.send({"error":"could not update",_id:_id})  
+         
+          res.send({error:"could not update",_id:_id})  
         }
         else{
+        console.log(data);
         data.issue_title=issue_title || data.issue_title;
         data.issue_text=issue_text || data.issue_text;
         data.created_by=created_by || data.created_by;
@@ -97,12 +99,12 @@ module.exports = function (app,mongo) {
         data.status_text=status_text || data.status_text;
         data.open=open || data.open;
         data.updated_on=new Date().toJSON();
+        console.log(data);
         data.save((err,dat)=>{
           if(err) console.log(err)
-
-          console.log({"result":"successfully updated",_id:_id});
-          res.send({"result":"successfully updated",_id:data._id});
-
+          console.log(dat)
+          console.log({"result":"successfully updated","_id":_id});
+          res.send({'result':"successfully updated",'_id':dat._id});
         });
         }
       })
